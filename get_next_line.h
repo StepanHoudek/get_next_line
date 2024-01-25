@@ -6,7 +6,7 @@
 /*   By: shoudek <shoudek@student.42prague.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:04:03 by shoudek           #+#    #+#             */
-/*   Updated: 2024/01/24 16:04:03 by shoudek          ###   ########.fr       */
+/*   Updated: 2024/01/25 13:46:35 by shoudek          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,6 @@
 
 #include <unistd.h>
 #include <stdlib.h>
+#include <fcntl.h>
 
 #endif
