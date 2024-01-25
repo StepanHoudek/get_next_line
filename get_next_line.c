@@ -6,51 +6,45 @@
 /*   By: shoudek <shoudek@student.42prague.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:03:36 by shoudek           #+#    #+#             */
-/*   Updated: 2024/01/25 12:09:03 by shoudek          ###   ########.fr       */
+/*   Updated: 2024/01/25 14:32:35 by shoudek          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <stdio.h>
 
-static int	g_buff_size = 1024;
-static char	*buffer;
+char	*ft_strchr(const char *s, int c)
+{
+	while (s[0] != '\0')
+	{
+		if (*s == (unsigned char)c)
+			return ((char *)s);
+		s++;
+	}
+	if (s[0] == (unsigned char)c)
+	{
+		return ((char *)s);
+	}
+	return (0);
+}
 
 char	*get_next_line(int fd)
 {
-	char	*buff;
-	char	*ptr;
-	int		j;
-	int		bytes_read;
-	int		i;
-
-	buff = malloc(sizeof(char) * g_buff_size);
-	if (!buff)
-		return (NULL);
-	bytes_read = 1;
-	i = 0;
-	while (bytes_read && *(buff++) != '\n')
-	{
-		bytes_read = read(fd, buff, 1);
-		if (bytes_read != 1)
-			return (NULL);
-		i++;
-	}
-	ptr = malloc(sizeof(char) * i);
-	if (!ptr)
-		return (NULL);
-	j = 0;
-	while (i > j)
-	{
-		ptr[j] = buff[j - i];
-		j++;
-	}
-	i++;
-	return (ptr);
+	// If EOF in buffer_ptr
+	// {
+	// create a substring from the buffer_ptr from start to EOF
+	// return substring
+	// }
+	// Else if \n in buffer_ptr
+	// {
+	// create a substring from the buffer_ptr from start to \n
+	// Move buffer_ptr forward just after the \n
+	// return substring
+	// }
+	// else
+	// read the buffer_size from the file and store in buffer
+	// recursively call get_next_line
 }
-
-#include <fcntl.h>
-#include <stdio.h>
 
 int	main(void)
 {
