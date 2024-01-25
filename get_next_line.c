@@ -6,12 +6,11 @@
 /*   By: shoudek <shoudek@student.42prague.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:03:36 by shoudek           #+#    #+#             */
-/*   Updated: 2024/01/25 15:20:25 by shoudek          ###   ########.fr       */
+/*   Updated: 2024/01/25 16:37:35 by shoudek          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
 
 char	*ft_strchr(const char *s, int c)
 {
@@ -69,54 +68,82 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	return (substr);
 }
 
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	int		s1len;
+	int		s2len;
+	char	*str;
+	int		i;
+	int		j;
+
+	if (!s1 || !s2)
+		return (0);
+	s1len = ft_strlen(s1);
+	s2len = ft_strlen(s2);
+	str = malloc(sizeof(char) * (s1len + s2len) + 1);
+	if (!str)
+		return (0);
+	i = 0;
+	while (s1[i] != '\0')
+	{
+		str[i] = s1[i];
+		i++;
+	}
+	j = 0;
+	while (s2[j] != '\0')
+		str[i++] = s2[j++];
+	str[i] = '\0';
+	return (str);
+}
+
 // If no characters in buffer
-// 		read the buffer_size from the file and store in buffer
+// 	read the buffer_size from the file and store in buffer
 // If EOF in buffer
 // {
-// create a substring from the buffer from start to EOF
-// return substring
-// }
+// 	create a substring from the buffer from start to EOF
+// 	return substring
+// 	}
 // Else if \n in buffer
-// {
-// create a substring from the buffer from start to \n
-// Move buffer forward just after the \n
-// return substring
-// }
+// 	{
+// 	create a substring from the buffer from start to \n
+// 	Move buffer forward just after the \n
+// 	return substring
+// 	}
 // else
-//
-// recursively call get_next_line
+// 	recursively call get_next_line
+
+#ifndef BUFFER_SIZE
+# define BUFFER_SIZE 42
+#endif
 
 char	*get_next_line(int fd)
 {
 	static char	*buffer;
-	char		*buffer_backup;
-	size_t		buffer_size;
+	char		*buffer_read;
+	char		*buffer_ptr;
 	ssize_t		bytes_read;
 
 	bytes_read = 0;
-	buffer_size = 6;
 	if (!buffer)
 	{
-		buffer = malloc(sizeof(char) * buffer_size);
+		buffer = malloc(sizeof(char) * BUFFER_SIZE);
 		if (!buffer)
 			return (0);
 	}
-	if (!bytes_read)
-	{
-		bytes_read = read(fd, buffer, buffer_size);
-		if (bytes_read == 0)
-			return (NULL);
-	}
-	if (bytes_read != buffer_size)
-	{
-		return (ft_substr(buffer, 0, bytes_read));
-	}
+	buffer_read = malloc(sizeof(char) * BUFFER_SIZE);
+	if (!buffer_read)
+		return (0);
+	bytes_read = read(fd, buffer_read, BUFFER_SIZE);
+	if (bytes_read == 0 && *buffer == '\0')
+		return (NULL);
+	if (bytes_read)
+		buffer = ft_strjoin(buffer, buffer_read);
 	if (ft_strchr(buffer, '\n'))
 	{
-		buffer_backup = buffer;
+		buffer_ptr = buffer;
 		buffer = ft_strchr(buffer, '\n') + 1;
-		return (ft_substr(buffer_backup, 0, ft_strchr(buffer_backup, '\n')
-				- buffer_backup));
+		return (ft_substr(buffer_ptr, 0, ft_strchr(buffer_ptr, '\n')
+				- buffer_ptr + 1));
 	}
 	else
 		get_next_line(fd);
