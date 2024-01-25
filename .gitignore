@@ -1,6 +1,10 @@
-**/*.out
+*
+!/**/
+!*.*
+test/*.out
 **/.vscode/
 *.o
 *.a
 *.txt
 *.exe
+
