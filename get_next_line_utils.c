@@ -6,7 +6,7 @@
 /*   By: shoudek <shoudek@student.42prague.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:05:09 by shoudek           #+#    #+#             */
-/*   Updated: 2024/01/26 13:58:39 by shoudek          ###   ########.fr       */
+/*   Updated: 2024/01/26 15:43:45 by shoudek          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		substr[0] = 0;
 		return (substr);
 	}
-	substr = malloc(sizeof(char) * len + 1);
+	substr = ft_calloc(sizeof(char), len + 1);
 	if (!substr)
 		return (0);
 	i = 0;

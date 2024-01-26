@@ -6,31 +6,61 @@
 /*   By: shoudek <shoudek@student.42prague.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:03:36 by shoudek           #+#    #+#             */
-/*   Updated: 2024/01/26 13:59:49 by shoudek          ###   ########.fr       */
+/*   Updated: 2024/01/26 17:27:03 by shoudek          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-// If no characters in buffer
-// 	read the buffer_size from the file and store in buffer
-// If EOF in buffer
-// {
-// 	create a substring from the buffer from start to EOF
-// 	return substring
-// 	}
-// Else if \n in buffer
-// 	{
-// 	create a substring from the buffer from start to \n
-// 	Move buffer forward just after the \n
-// 	return substring
-// 	}
-// else
-// 	recursively call get_next_line
-
 #ifndef BUFFER_SIZE
 # define BUFFER_SIZE 1
 #endif
+
+char	*get_buffer(char *buffer, int fd)
+{
+	char	*buffer_read;
+	char	*ptr;
+	ssize_t	bytes_read;
+
+	bytes_read = 0;
+	buffer_read = ft_calloc(sizeof(char), BUFFER_SIZE + 1);
+	// adding +1 for null to BUFFER_SIZE, TO-DO to put the null there
+	ptr = NULL;
+	if (!buffer_read)
+		return (NULL);
+	if (!buffer)
+	{
+		buffer = ft_calloc(sizeof(char), 1);
+		if (!buffer)
+			return (NULL);
+	}
+	bytes_read = read(fd, buffer_read, BUFFER_SIZE);
+	while (bytes_read > 0)
+	{
+		ptr = buffer;
+		buffer = ft_strjoin(buffer, buffer_read); // HERE, free old buffer
+		free(ptr);
+		if (ft_strchr(buffer, '\n'))
+		{
+			ptr = buffer;
+			buffer = ft_strchr(buffer, '\n') + 1;
+			free(buffer_read);
+			// Gotta malloc buffer again. Free ptr;
+			return (ft_substr(ptr, 0, ft_strchr(ptr, '\n') - ptr + 1));
+		}
+		bytes_read = read(fd, buffer_read, BUFFER_SIZE);
+	}
+}
+
+char	*read_line(char *buffer)
+{
+	return (NULL);
+}
+
+char	*remove_line(char *buffer)
+{
+	return (NULL);
+}
 
 char	*get_next_line(int fd)
 {
@@ -40,27 +70,36 @@ char	*get_next_line(int fd)
 	ssize_t		bytes_read;
 
 	bytes_read = 0;
-	buffer_read = ft_calloc(sizeof(char), BUFFER_SIZE);
-	bytes_read = read(fd, buffer_read, BUFFER_SIZE);
-	if (bytes_read)
-	{
-		if (!buffer)
-			buffer = ft_calloc(sizeof(char), BUFFER_SIZE);
-		ptr = buffer;
-		buffer = ft_strjoin(buffer, buffer_read);
-		free(ptr);
-	}
-	if (bytes_read == 0 && !buffer)
+	buffer_read = ft_calloc(sizeof(char), BUFFER_SIZE + 1);
+	// adding +1 for null to BUFFER_SIZE, TO-DO to put the null there
+	ptr = NULL;
+	if (!buffer_read)
 		return (NULL);
-	free(buffer_read);
-	if (ft_strchr(buffer, '\n'))
+	if (!buffer)
 	{
-		ptr = buffer;
-		buffer = ft_strchr(buffer, '\n') + 1;
-		return (ft_substr(ptr, 0, ft_strchr(ptr, '\n') - ptr + 1));
+		buffer = ft_calloc(sizeof(char), 1);
+		if (!buffer)
+			return (NULL);
 	}
-	else
-		return (get_next_line(fd));
+	bytes_read = read(fd, buffer_read, BUFFER_SIZE);
+	while (bytes_read > 0)
+	{
+		buffer = ft_strjoin(buffer, buffer_read); // HERE, free old buffer
+		if (ft_strchr(buffer, '\n'))
+		{
+			ptr = buffer;
+			buffer = ft_strchr(buffer, '\n') + 1;
+			free(buffer_read);
+			// Gotta malloc buffer again. Free ptr;
+			return (ft_substr(ptr, 0, ft_strchr(ptr, '\n') - ptr + 1));
+		}
+		bytes_read = read(fd, buffer_read, BUFFER_SIZE);
+	}
+	// END OF FILE PRINT REMAINING BUFFER
+	free(buffer_read);
+	if (ptr)
+		free(ptr);
+	return (NULL);
 }
 
 /*
@@ -80,4 +119,5 @@ int	main(void)
 		printf("%s", ptr);
 	}
 }
+
 */
