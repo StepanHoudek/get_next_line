@@ -6,7 +6,7 @@
 /*   By: shoudek <shoudek@student.42prague.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:03:36 by shoudek           #+#    #+#             */
-/*   Updated: 2024/01/25 17:04:21 by shoudek          ###   ########.fr       */
+/*   Updated: 2024/01/26 13:59:49 by shoudek          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 // 	recursively call get_next_line
 
 #ifndef BUFFER_SIZE
-# define BUFFER_SIZE 42
+# define BUFFER_SIZE 1
 #endif
 
 char	*get_next_line(int fd)
@@ -40,14 +40,18 @@ char	*get_next_line(int fd)
 	ssize_t		bytes_read;
 
 	bytes_read = 0;
-	if (!buffer)
-		buffer = ft_calloc(sizeof(char), BUFFER_SIZE);
 	buffer_read = ft_calloc(sizeof(char), BUFFER_SIZE);
 	bytes_read = read(fd, buffer_read, BUFFER_SIZE);
-	if (bytes_read == 0 && *buffer == '\0')
-		return (NULL);
 	if (bytes_read)
+	{
+		if (!buffer)
+			buffer = ft_calloc(sizeof(char), BUFFER_SIZE);
+		ptr = buffer;
 		buffer = ft_strjoin(buffer, buffer_read);
+		free(ptr);
+	}
+	if (bytes_read == 0 && !buffer)
+		return (NULL);
 	free(buffer_read);
 	if (ft_strchr(buffer, '\n'))
 	{
@@ -56,11 +60,10 @@ char	*get_next_line(int fd)
 		return (ft_substr(ptr, 0, ft_strchr(ptr, '\n') - ptr + 1));
 	}
 	else
-		get_next_line(fd);
-	return (NULL);
+		return (get_next_line(fd));
 }
 
-
+/*
 int	main(void)
 {
 	char	*path;
@@ -77,4 +80,4 @@ int	main(void)
 		printf("%s", ptr);
 	}
 }
-
+*/

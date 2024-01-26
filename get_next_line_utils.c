@@ -6,7 +6,7 @@
 /*   By: shoudek <shoudek@student.42prague.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:05:09 by shoudek           #+#    #+#             */
-/*   Updated: 2024/01/25 16:43:56 by shoudek          ###   ########.fr       */
+/*   Updated: 2024/01/26 13:58:39 by shoudek          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	*ft_calloc(size_t nmemb, size_t size)
 		ptr = malloc(0);
 		return (ptr);
 	}
-	ptr = malloc(nmemb * size);
+	ptr = (void *)malloc(nmemb * size);
 	if (!ptr)
 		return (0);
 	i = 0;
