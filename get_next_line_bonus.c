@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: shoudek <shoudek@student.42prague.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:03:36 by shoudek           #+#    #+#             */
-/*   Updated: 2024/01/29 15:43:26 by shoudek          ###   ########.fr       */
+/*   Updated: 2024/01/29 15:43:12 by shoudek          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 #ifndef BUFFER_SIZE
 # define BUFFER_SIZE 4
@@ -80,17 +80,17 @@ char	*remove_line(char *buffer)
 
 char	*get_next_line(int fd)
 {
-	static char	*buffer;
+	static char	*buffer[1024];
 	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	buffer = get_buffer(buffer, fd);
-	line = read_line(buffer);
-	buffer = remove_line(buffer);
-	if (!buffer && !line)
+	buffer[fd] = get_buffer(buffer[fd], fd);
+	line = read_line(buffer[fd]);
+	buffer[fd] = remove_line(buffer[fd]);
+	if (!buffer[fd] && !line)
 	{
-		free(buffer);
+		free(buffer[fd]);
 		return (NULL);
 	}
 	return (line);

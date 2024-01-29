@@ -6,11 +6,11 @@
 /*   By: shoudek <shoudek@student.42prague.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:13:41 by shoudek           #+#    #+#             */
-/*   Updated: 2024/01/29 15:36:26 by shoudek          ###   ########.fr       */
+/*   Updated: 2024/01/29 15:40:54 by shoudek          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../get_next_line.h"
+#include "../get_next_line_bonus.h"
 
 // cc -Wall -Wextra -Werror -D BUFFER_SIZE=1 main.c ../*.c  && ./a.out
 
