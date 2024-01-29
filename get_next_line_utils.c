@@ -6,7 +6,7 @@
 /*   By: shoudek <shoudek@student.42prague.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:05:09 by shoudek           #+#    #+#             */
-/*   Updated: 2024/01/26 15:43:45 by shoudek          ###   ########.fr       */
+/*   Updated: 2024/01/29 13:22:27 by shoudek          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,13 @@
 
 void	*ft_calloc(size_t nmemb, size_t size)
 {
-	void	*ptr;
-	size_t	i;
+	void			*ptr;
+	unsigned int	max_int;
+	size_t			i;
 
+	max_int = 2147483647;
+	if (nmemb > max_int && size > max_int)
+		return (NULL);
 	if (nmemb == 0 || size == 0)
 	{
 		ptr = malloc(0);
@@ -31,7 +35,7 @@ void	*ft_calloc(size_t nmemb, size_t size)
 		((unsigned char *)ptr)[i] = '\0';
 		i++;
 	}
-	return (ptr);
+	return ((void *)ptr);
 }
 
 char	*ft_strchr(const char *s, int c)
