@@ -6,7 +6,7 @@
 /*   By: shoudek <shoudek@student.42prague.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:05:09 by shoudek           #+#    #+#             */
-/*   Updated: 2024/01/29 13:22:27 by shoudek          ###   ########.fr       */
+/*   Updated: 2024/01/29 14:38:13 by shoudek          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ void	*ft_calloc(size_t nmemb, size_t size)
 
 char	*ft_strchr(const char *s, int c)
 {
+	if (!s)
+		return (NULL);
 	while (s[0] != '\0')
 	{
 		if (*s == (unsigned char)c)
@@ -50,20 +52,17 @@ char	*ft_strchr(const char *s, int c)
 	{
 		return ((char *)s);
 	}
-	return (0);
+	return (NULL);
 }
 
 size_t	ft_strlen(const char *s)
 {
-	size_t	size;
+	size_t	i;
 
-	size = 0;
-	while (*s)
-	{
-		size++;
-		s++;
-	}
-	return (size);
+	i = 0;
+	while (s[i] != '\0')
+		i++;
+	return (i);
 }
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
