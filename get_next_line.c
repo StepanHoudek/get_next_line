@@ -6,7 +6,7 @@
 /*   By: shoudek <shoudek@student.42prague.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:03:36 by shoudek           #+#    #+#             */
-/*   Updated: 2024/01/29 14:52:15 by shoudek          ###   ########.fr       */
+/*   Updated: 2024/01/29 15:30:06 by shoudek          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*read_line(char *buffer)
 {
 	char	*ptr;
 
-	if (*buffer == '\0')
+	if (!buffer || *buffer == '\0')
 		return (NULL);
 	if (ft_strchr(buffer, '\n'))
 	{
