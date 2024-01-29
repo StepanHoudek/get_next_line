@@ -6,7 +6,7 @@
 /*   By: shoudek <shoudek@student.42prague.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:03:36 by shoudek           #+#    #+#             */
-/*   Updated: 2024/01/29 13:39:35 by shoudek          ###   ########.fr       */
+/*   Updated: 2024/01/29 14:26:47 by shoudek          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ char	*read_line(char *buffer)
 {
 	char	*ptr;
 
-	if (!buffer)
-		return (NULL);
+	// if (!buffer)
+	// 	return (NULL);
 	if (*buffer == '\0')
 		return (NULL);
 	if (ft_strchr(buffer, '\n'))
@@ -65,7 +65,6 @@ char	*read_line(char *buffer)
 char	*remove_line(char *buffer)
 {
 	char	*ptr;
-	char	*nptr;
 
 	ptr = ft_strchr(buffer, '\n');
 	if (ptr != NULL)
@@ -104,6 +103,7 @@ char	*get_next_line(int fd)
 	}
 	return (line);
 }
+
 
 int	main(void)
 {
