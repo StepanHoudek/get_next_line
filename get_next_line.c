@@ -6,7 +6,7 @@
 /*   By: shoudek <shoudek@student.42prague.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:03:36 by shoudek           #+#    #+#             */
-/*   Updated: 2024/01/29 14:37:21 by shoudek          ###   ########.fr       */
+/*   Updated: 2024/01/29 14:52:15 by shoudek          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@ char	*read_line(char *buffer)
 {
 	char	*ptr;
 
-	// if (!buffer)
-	// 	return (NULL);
 	if (*buffer == '\0')
 		return (NULL);
 	if (ft_strchr(buffer, '\n'))
@@ -59,7 +57,7 @@ char	*read_line(char *buffer)
 		return (ptr);
 	}
 	else
-		return (buffer);
+		return (ft_strjoin(buffer, ""));
 }
 
 char	*remove_line(char *buffer)
@@ -80,7 +78,6 @@ char	*remove_line(char *buffer)
 	}
 }
 
-
 char	*get_next_line(int fd)
 {
 	static char	*buffer;
@@ -99,7 +96,7 @@ char	*get_next_line(int fd)
 	return (line);
 }
 
-
+/*
 int	main(void)
 {
 	char	*path;
@@ -116,7 +113,7 @@ int	main(void)
 		printf("%s", ptr);
 	}
 }
-
+*/
 // jedna fce plni buffer do \n or EOF
 // Dalsi funkce bere z bufferu tu line or EOF a vraci ptr na tu line
 // Treti funkce maze line z buffer
