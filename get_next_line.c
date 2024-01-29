@@ -6,14 +6,14 @@
 /*   By: shoudek <shoudek@student.42prague.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:03:36 by shoudek           #+#    #+#             */
-/*   Updated: 2024/01/29 12:47:08 by shoudek          ###   ########.fr       */
+/*   Updated: 2024/01/29 12:57:53 by shoudek          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
 #ifndef BUFFER_SIZE
-# define BUFFER_SIZE 4
+# define BUFFER_SIZE 30
 #endif
 
 char	*get_buffer(char *buffer, int fd)
@@ -25,22 +25,18 @@ char	*get_buffer(char *buffer, int fd)
 	ptr = NULL;
 	if (!buffer_read)
 		return (NULL);
-	if (!buffer)
-	{
-		ptr = buffer;
-		buffer = ft_calloc(1, 1);
-		free(ptr);
-		if (!buffer)
-			return (NULL);
-	}
 	while (read(fd, buffer_read, BUFFER_SIZE))
 	{
 		ptr = buffer;
 		buffer = ft_strjoin(buffer, buffer_read);
 		free(ptr);
 		if (ft_strchr(buffer, '\n'))
+		{
+			free(buffer_read);
 			return (buffer);
+		}
 	}
+	free(buffer_read);
 	return (buffer);
 }
 
@@ -94,6 +90,12 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
+	if (!buffer)
+	{
+		buffer = ft_calloc(1, 1);
+		if (!buffer)
+			return (NULL);
+	}
 	buffer = get_buffer(buffer, fd);
 	if (!buffer)
 		return (NULL);
@@ -107,6 +109,7 @@ char	*get_next_line(int fd)
 	return (line);
 }
 
+/*
 int	main(void)
 {
 	char	*path;
@@ -123,7 +126,7 @@ int	main(void)
 		printf("%s", ptr);
 	}
 }
-
+*/
 // jedna fce plni buffer do \n or EOF
 // Dalsi funkce bere z bufferu tu line or EOF a vraci ptr na tu line
 // Treti funkce maze line z buffer
