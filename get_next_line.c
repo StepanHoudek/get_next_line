@@ -6,7 +6,7 @@
 /*   By: shoudek <shoudek@student.42prague.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:03:36 by shoudek           #+#    #+#             */
-/*   Updated: 2024/01/29 15:30:06 by shoudek          ###   ########.fr       */
+/*   Updated: 2024/01/29 15:30:40 by shoudek          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,24 +96,3 @@ char	*get_next_line(int fd)
 	return (line);
 }
 
-/*
-int	main(void)
-{
-	char	*path;
-	int		fd;
-	char	*ptr;
-
-	path = "example.txt";
-	fd = open(path, O_RDONLY);
-	ptr = get_next_line(fd);
-	printf("%s", ptr);
-	while (ptr)
-	{
-		ptr = get_next_line(fd);
-		printf("%s", ptr);
-	}
-}
-*/
-// jedna fce plni buffer do \n or EOF
-// Dalsi funkce bere z bufferu tu line or EOF a vraci ptr na tu line
-// Treti funkce maze line z buffer
