@@ -6,35 +6,40 @@
 /*   By: shoudek <shoudek@student.42prague.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:03:36 by shoudek           #+#    #+#             */
-/*   Updated: 2024/01/29 12:57:53 by shoudek          ###   ########.fr       */
+/*   Updated: 2024/01/29 13:39:35 by shoudek          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
 #ifndef BUFFER_SIZE
-# define BUFFER_SIZE 30
+# define BUFFER_SIZE 1
 #endif
 
 char	*get_buffer(char *buffer, int fd)
 {
 	char	*buffer_read;
 	char	*ptr;
+	int		size;
 
-	buffer_read = ft_calloc(sizeof(char), BUFFER_SIZE + 1);
-	ptr = NULL;
+	buffer_read = (char *)ft_calloc(sizeof(char), BUFFER_SIZE + 1);
 	if (!buffer_read)
 		return (NULL);
-	while (read(fd, buffer_read, BUFFER_SIZE))
+	size = 1;
+	while (size != 0 && ft_strchr(buffer, '\n') == NULL)
 	{
-		ptr = buffer;
-		buffer = ft_strjoin(buffer, buffer_read);
-		free(ptr);
-		if (ft_strchr(buffer, '\n'))
+		size = read(fd, buffer_read, BUFFER_SIZE);
+		if (size == -1)
 		{
 			free(buffer_read);
-			return (buffer);
+			return (NULL);
 		}
+		buffer_read[size] = '\0';
+		ptr = buffer;
+		if (ptr == NULL)
+			ptr = (char *)ft_calloc(1, 1);
+		buffer = ft_strjoin(buffer, buffer_read);
+		free(ptr);
 	}
 	free(buffer_read);
 	return (buffer);
@@ -44,12 +49,13 @@ char	*read_line(char *buffer)
 {
 	char	*ptr;
 
+	if (!buffer)
+		return (NULL);
 	if (*buffer == '\0')
 		return (NULL);
 	if (ft_strchr(buffer, '\n'))
 	{
 		ptr = ft_substr(buffer, 0, ft_strchr(buffer, '\n') - buffer + 1);
-		// free(buffer);
 		return (ptr);
 	}
 	else
@@ -61,26 +67,18 @@ char	*remove_line(char *buffer)
 	char	*ptr;
 	char	*nptr;
 
-	nptr = ft_strchr(buffer, '\n');
-	if (!buffer || *buffer == '\0')
-		return (NULL);
-	if (*(nptr + 1) == '\0')
+	ptr = ft_strchr(buffer, '\n');
+	if (ptr != NULL)
 	{
+		ptr = ft_strjoin(ptr + 1, "");
 		free(buffer);
-		buffer = NULL;
-	}
-	else if (nptr)
-	{
-		ptr = buffer;
-		buffer = ft_strjoin(nptr + 1, "");
-		free(ptr);
+		return (ptr);
 	}
 	else
 	{
 		free(buffer);
-		buffer = NULL;
+		return (NULL);
 	}
-	return (buffer);
 }
 
 char	*get_next_line(int fd)
@@ -97,8 +95,6 @@ char	*get_next_line(int fd)
 			return (NULL);
 	}
 	buffer = get_buffer(buffer, fd);
-	if (!buffer)
-		return (NULL);
 	line = read_line(buffer);
 	buffer = remove_line(buffer);
 	if (!buffer && !line)
@@ -109,7 +105,6 @@ char	*get_next_line(int fd)
 	return (line);
 }
 
-/*
 int	main(void)
 {
 	char	*path;
@@ -126,7 +121,7 @@ int	main(void)
 		printf("%s", ptr);
 	}
 }
-*/
+
 // jedna fce plni buffer do \n or EOF
 // Dalsi funkce bere z bufferu tu line or EOF a vraci ptr na tu line
 // Treti funkce maze line z buffer
