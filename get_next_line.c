@@ -6,14 +6,14 @@
 /*   By: shoudek <shoudek@student.42prague.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:03:36 by shoudek           #+#    #+#             */
-/*   Updated: 2024/01/29 14:26:47 by shoudek          ###   ########.fr       */
+/*   Updated: 2024/01/29 14:37:21 by shoudek          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
 #ifndef BUFFER_SIZE
-# define BUFFER_SIZE 1
+# define BUFFER_SIZE 4
 #endif
 
 char	*get_buffer(char *buffer, int fd)
@@ -38,7 +38,7 @@ char	*get_buffer(char *buffer, int fd)
 		ptr = buffer;
 		if (ptr == NULL)
 			ptr = (char *)ft_calloc(1, 1);
-		buffer = ft_strjoin(buffer, buffer_read);
+		buffer = ft_strjoin(ptr, buffer_read);
 		free(ptr);
 	}
 	free(buffer_read);
@@ -80,6 +80,7 @@ char	*remove_line(char *buffer)
 	}
 }
 
+
 char	*get_next_line(int fd)
 {
 	static char	*buffer;
@@ -87,12 +88,6 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	if (!buffer)
-	{
-		buffer = ft_calloc(1, 1);
-		if (!buffer)
-			return (NULL);
-	}
 	buffer = get_buffer(buffer, fd);
 	line = read_line(buffer);
 	buffer = remove_line(buffer);
